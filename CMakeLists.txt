@@ -17,7 +17,7 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core LinguistTools REQUIRED)
 set(TS_FILES filtermusic-headless_en_150.ts)
 
 add_executable(filtermusic-headless
-  main.cpp
+  src/main.cpp
   ${TS_FILES}
 )
 target_link_libraries(filtermusic-headless Qt${QT_VERSION_MAJOR}::Core)
