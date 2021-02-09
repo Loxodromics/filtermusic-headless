@@ -4,31 +4,31 @@
 <context>
     <name>LFD::filtermusic::Server</name>
     <message>
-        <source>You&apos;ve been leading a dog&apos;s life. Stay off the furniture.</source>
+        <source>Message 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You&apos;ve got to think about tomorrow.</source>
+        <source>Message 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You will be surprised by a loud noise.</source>
+        <source>Message 3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You will feel hungry again in another hour.</source>
+        <source>Message 4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You might have mail.</source>
+        <source>Message 5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You cannot kill time without injuring eternity.</source>
+        <source>Message 6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Computers are not intelligent. They only think they are.</source>
+        <source>Message 7</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
