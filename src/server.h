@@ -8,24 +8,32 @@
 
 #pragma once
 
-#include <QStringList>
-#include <QTcpServer>
+#include <QtCore/QList>
+#include <QtCore/QObject>
+
+class QWebSocketServer;
+class QWebSocket;
+class QString;
 
 namespace LFD {
 
 namespace filtermusic {
 
-class Server : public QTcpServer {
+class Server : public QObject {
 	Q_OBJECT
 
 public:
-	Server(QObject* parent = nullptr);
+	Server(quint16 port, QObject* parent = nullptr);
+	~Server() override;
 
-protected:
-	void incomingConnection(qintptr socketDescriptor) override;
+private slots:
+	void onNewConnection();
+	void processMessage(const QString& message);
+	void socketDisconnected();
 
 private:
-	QStringList messages;
+	QWebSocketServer* m_pWebSocketServer;
+	QList<QWebSocket*> m_clients;
 };
 
 }	/// namespace filtermusic
