@@ -19,7 +19,7 @@ namespace filtermusic {
 Server::Server(QObject* parent)
 	: QTcpServer(parent)
 {
-	messages << tr("Message 1") << tr("Message 2") << tr("Message 3") << tr("Message 4") << tr("YMessage 5")
+	messages << tr("Message 1") << tr("Message 2") << tr("Message 3") << tr("Message 4") << tr("Message 5")
 			 << tr("Message 6") << tr("Message 7");
 }
 

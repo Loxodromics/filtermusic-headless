@@ -18,7 +18,7 @@ class ServerThread : public QThread {
 	Q_OBJECT
 
 public:
-	ServerThread(int socketDescriptor, const QString& fortune, QObject* parent);
+	ServerThread(int socketDescriptor, const QString& message, QObject* parent);
 
 	void run() override;
 

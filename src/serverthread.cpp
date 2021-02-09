@@ -13,10 +13,10 @@ namespace LFD {
 
 namespace filtermusic {
 
-ServerThread::ServerThread(int socketDescriptor, const QString& fortune, QObject* parent)
+ServerThread::ServerThread(int socketDescriptor, const QString& message, QObject* parent)
 	: QThread(parent)
 	, socketDescriptor(socketDescriptor)
-	, text(fortune)
+	, text(message)
 {
 }
 
@@ -31,7 +31,7 @@ void ServerThread::run()
 
 	QByteArray block;
 	QDataStream out(&block, QIODevice::WriteOnly);
-	out.setVersion(QDataStream::Qt_4_0);
+	out.setVersion(QDataStream::Qt_5_11);
 	out << text;
 
 	tcpSocket.write(block);
