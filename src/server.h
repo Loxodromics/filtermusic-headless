@@ -1,6 +1,6 @@
 /**
  *  server.h
- *  %PROJECT_NAME%
+ *  filtermusic-headless
  *
  *  Created by philipp2 on 06.02.2021.
  *  Copyright (c) 2021 Philipp Engelhard. All rights reserved.
@@ -26,12 +26,24 @@ public:
 	Server(quint16 port, QObject* parent = nullptr);
 	~Server() override;
 
+signals:
+	void playStation(const QString& stationUrl);
+	void stop();
+	void volume(const int volume);
+
+public slots:
+	void playingTitle(const QString& title);
+	void stopped();
+	void setVolume(const int volume);
+
 private slots:
 	void onNewConnection();
 	void processMessage(const QString& message);
 	void socketDisconnected();
 
-private:
+protected:
+	void sendMessage(const QString& message);
+
 	QWebSocketServer* m_pWebSocketServer;
 	QList<QWebSocket*> m_clients;
 };

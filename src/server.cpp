@@ -1,6 +1,6 @@
 /**
  *  server.cpp
- *  %PROJECT_NAME%
+ *  filtermusic-headless
  *
  *  Created by philipp2 on 06.02.2021.
  *  Copyright (c) 2021 Philipp Engelhard. All rights reserved.
@@ -35,6 +35,21 @@ Server::~Server() {
 	m_pWebSocketServer->close();
 }
 
+void Server::playingTitle(const QString& title)
+{
+
+}
+
+void Server::stopped()
+{
+
+}
+
+void Server::setVolume(const int volume)
+{
+
+}
+
 void Server::onNewConnection()
 {
 	auto pSocket = m_pWebSocketServer->nextPendingConnection();
@@ -49,10 +64,24 @@ void Server::onNewConnection()
 
 void Server::processMessage(const QString& message)
 {
-	QWebSocket* pSender = qobject_cast<QWebSocket*>(sender());
-	for (QWebSocket* pClient : qAsConst(m_clients)) {
-		pClient->sendTextMessage("Blaaaa");
+	QString answer = "no answer";
+	if (message.startsWith("play:")) {
+		QString stationUrl = message.mid(5);
+		answer = QStringLiteral("Trying to play: ") + stationUrl + QStringLiteral("...");
+		emit playStation(stationUrl);
 	}
+	else if (message.startsWith("stop")) {
+		answer = QStringLiteral("Stopping...");
+	}
+	else if (message.startsWith("volume:")) {
+		QString volume = message.right(7);
+		answer = QStringLiteral("Volume set to: ") + volume;
+	}
+	else {
+		answer = QStringLiteral("¯\\_(ツ)_/¯");
+	}
+	QWebSocket* pSender = qobject_cast<QWebSocket*>(sender());
+	this->sendMessage(answer);
 }
 
 void Server::socketDisconnected()
@@ -62,6 +91,13 @@ void Server::socketDisconnected()
 	if (pClient) {
 		m_clients.removeAll(pClient);
 		pClient->deleteLater();
+	}
+}
+
+void Server::sendMessage(const QString& message)
+{
+	for (QWebSocket* pClient : qAsConst(m_clients)) {
+		pClient->sendTextMessage(message);
 	}
 }
 
