@@ -2,7 +2,7 @@
  *  server.h
  *  filtermusic-headless
  *
- *  Created by philipp2 on 06.02.2021.
+ *  Created by philipp on 06.02.2021.
  *  Copyright (c) 2021 Philipp Engelhard. All rights reserved.
  */
 
