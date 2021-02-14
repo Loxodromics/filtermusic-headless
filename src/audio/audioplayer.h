@@ -12,6 +12,8 @@
 
 namespace LFD {
 
+namespace filtermusic {
+
 class AudioPlayer : public QObject
 {
 	Q_OBJECT
@@ -36,11 +38,9 @@ public:
 
 	AudioPlayer::PlayingState playingState() const;
 
-	QString title() const;
-
 public slots:
 	void setStationUrl(const QString stationUrl);
-	void setTitle(QString title);
+	void setTrackInfo(const QString trackinfo);
 	void setVolume(int volume);
 
 protected slots:
@@ -52,17 +52,19 @@ protected slots:
 
 signals:
 	void newTitle( QString title );
-	void playPressed();
-	void pausePressed();
+	void startedPlaying();
+	void paused();
 
 protected:
-	void setPlayingState( const PlayingState& playingState );
+	void setPlayingState(const PlayingState& playingState);
 
 	QMediaPlayer m_player;
 	PlayingState m_playingState;
-	QString m_title;
+	QString m_trackinfo;
 	QString m_stationUrl;
 };
+
+}	/// namespace filtermusic
 
 }	/// namespace LFD
 

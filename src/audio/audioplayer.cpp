@@ -12,11 +12,13 @@
 
 namespace LFD {
 
+namespace filtermusic {
+
 AudioPlayer::AudioPlayer(QObject* parent)
 	: QObject(parent),
 	  m_player(this),
 	  m_playingState(PlayingState::NotConnected),
-	  m_title(""),
+	  m_trackinfo(""),
 	  m_stationUrl("")
 {
 	connect( &this->m_player, SIGNAL(metaDataChanged()),
@@ -50,18 +52,13 @@ void AudioPlayer::setPlayingState(const PlayingState& playingState)
 	}
 }
 
-QString AudioPlayer::title() const
+void AudioPlayer::setTrackInfo(const QString title)
 {
-	return this->m_title;
-}
-
-void AudioPlayer::setTitle(QString title)
-{
-	if (m_title == title)
+	if (m_trackinfo == title)
 		return;
 
-	m_title = title;
-	emit newTitle(m_title);
+	m_trackinfo = title;
+	emit newTitle(m_trackinfo);
 }
 
 void AudioPlayer::setStationUrl(const QString stationUrl)
@@ -103,17 +100,13 @@ void AudioPlayer::metaDataChanged()
 {
 	if (this->m_player.isMetaDataAvailable()) {
 		qDebug() << this->m_player.metaData(QMediaMetaData::Title);
-//        setTrackInfo(QString("%1 - %2")
-//                .arg(player->metaData(QMediaMetaData::AlbumArtist).toString())
-//                .arg(player->metaData(QMediaMetaData::Title).toString()));
+		this->setTrackInfo(QString("%1 - %2")
+							 .arg(this->m_player.metaData(QMediaMetaData::AlbumArtist).toString())
+							 .arg(this->m_player.metaData(QMediaMetaData::Title).toString()));
 
-//        if (coverLabel) {
-//            QUrl url = player->metaData(QMediaMetaData::CoverArtUrlLarge).value<QUrl>();
 
-//            coverLabel->setPixmap(!url.isEmpty()
-//                    ? QPixmap(url.toString())
-//                    : QPixmap());
-//        }
+		QUrl url = this->m_player.metaData(QMediaMetaData::CoverArtUrlLarge).value<QUrl>();
+		qDebug() << "cover url: " << url;
 	}
 }
 
@@ -161,5 +154,7 @@ void AudioPlayer::reportErrorMessage()
 	qDebug() << "error:" << this->m_player.errorString();
 	this->setPlayingState( PlayingState::NotConnected );
 }
+
+}	/// namespace filtermusic
 
 }  /// namespace LFD

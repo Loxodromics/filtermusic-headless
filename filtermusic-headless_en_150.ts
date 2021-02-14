@@ -2,7 +2,7 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="filtermusic-headless_en_150">
 <context>
-    <name>LFD::AudioPlayer</name>
+    <name>LFD::filtermusic::AudioPlayer</name>
     <message>
         <source>Buffering %4%</source>
         <translation type="unfinished"></translation>

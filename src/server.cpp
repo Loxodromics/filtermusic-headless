@@ -23,21 +23,16 @@ static QString getIdentifier(QWebSocket* peer)
 
 Server::Server(quint16 port, QObject* parent)
 	: QObject(parent)
-	, m_pWebSocketServer(new QWebSocketServer(QStringLiteral("FiltermusicServer"), QWebSocketServer::NonSecureMode, this))
+	, m_webSocketServer(new QWebSocketServer(QStringLiteral("FiltermusicServer"), QWebSocketServer::NonSecureMode, this))
 {
-	if (m_pWebSocketServer->listen(QHostAddress::Any, port)) {
+	if (m_webSocketServer->listen(QHostAddress::Any, port)) {
 		QTextStream(stdout) << "filtermusic Server listening on port " << port << '\n';
-		connect(m_pWebSocketServer, &QWebSocketServer::newConnection, this, &Server::onNewConnection);
+		connect(m_webSocketServer, &QWebSocketServer::newConnection, this, &Server::onNewConnection);
 	}
 }
 
 Server::~Server() {
-	m_pWebSocketServer->close();
-}
-
-void Server::playingTitle(const QString& title)
-{
-
+	m_webSocketServer->close();
 }
 
 void Server::stopped()
@@ -45,14 +40,9 @@ void Server::stopped()
 
 }
 
-void Server::setVolume(const int volume)
-{
-
-}
-
 void Server::onNewConnection()
 {
-	auto pSocket = m_pWebSocketServer->nextPendingConnection();
+	auto pSocket = m_webSocketServer->nextPendingConnection();
 	QTextStream(stdout) << getIdentifier(pSocket) << " connected!\n";
 	pSocket->setParent(this);
 
@@ -72,10 +62,12 @@ void Server::processMessage(const QString& message)
 	}
 	else if (message.startsWith("stop")) {
 		answer = QStringLiteral("Stopping...");
+		emit stop();
 	}
 	else if (message.startsWith("volume:")) {
-		QString volume = message.right(7);
+		QString volume = message.mid(7);
 		answer = QStringLiteral("Volume set to: ") + volume;
+		emit setVolume(volume.toInt());
 	}
 	else {
 		answer = QStringLiteral("¯\\_(ツ)_/¯");

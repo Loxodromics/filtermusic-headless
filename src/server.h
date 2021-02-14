@@ -29,12 +29,11 @@ public:
 signals:
 	void playStation(const QString& stationUrl);
 	void stop();
-	void volume(const int volume);
+	void setVolume(const int volume);
 
 public slots:
-	void playingTitle(const QString& title);
 	void stopped();
-	void setVolume(const int volume);
+	void sendMessage(const QString& message);
 
 private slots:
 	void onNewConnection();
@@ -42,9 +41,7 @@ private slots:
 	void socketDisconnected();
 
 protected:
-	void sendMessage(const QString& message);
-
-	QWebSocketServer* m_pWebSocketServer;
+	QWebSocketServer* m_webSocketServer;
 	QList<QWebSocket*> m_clients;
 };
 
