@@ -95,7 +95,7 @@ void AudioPlayer::pause()
 {
 	this->setPlayingState(PlayingState::NotConnected);
 	this->m_player.pause();
-	this->status(QStringLiteral("Paused"));
+	emit this->status(QStringLiteral("Paused"));
 }
 
 void AudioPlayer::metaDataChanged()
@@ -109,6 +109,7 @@ void AudioPlayer::metaDataChanged()
 
 		QUrl url = this->m_player.metaData(QMediaMetaData::CoverArtUrlLarge).value<QUrl>();
 		qDebug() << "cover url: " << url;
+		emit this->status(QStringLiteral("coverurl:") + url.toString());
 	}
 }
 
@@ -123,15 +124,19 @@ void AudioPlayer::statusChanged(QMediaPlayer::MediaStatus status)
 	case QMediaPlayer::BufferingMedia:
 	case QMediaPlayer::BufferedMedia:
 		this->setPlayingState(PlayingState::Playing);
+		emit this->status(QStringLiteral("Playing"));
 		break;
 	case QMediaPlayer::LoadingMedia:
 		this->setPlayingState(PlayingState::Connecting);
+		emit this->status(QStringLiteral("Connecting"));
 		break;
 	case QMediaPlayer::StalledMedia:
 		this->setPlayingState(PlayingState::Connecting);
+		emit this->status(QStringLiteral("Connecting"));
 		break;
 	case QMediaPlayer::EndOfMedia:
 		this->setPlayingState( PlayingState::NotConnected );
+		emit this->status(QStringLiteral("Stopped"));
 		break;
 	case QMediaPlayer::InvalidMedia:
 		reportErrorMessage();
@@ -143,6 +148,7 @@ void AudioPlayer::stateChanged(QMediaPlayer::State state)
 {
 	if (state == QMediaPlayer::StoppedState) {
 		this->setPlayingState( PlayingState::NotConnected );
+		emit this->status(QStringLiteral("Stopped"));
 	}
 }
 
