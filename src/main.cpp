@@ -28,6 +28,8 @@ int main(int argc, char* argv[])
 
 	QObject::connect(&audioPlayer, &LFD::filtermusic::AudioPlayer::newTitle,
 			&server, &LFD::filtermusic::Server::sendMessage);
+	QObject::connect(&audioPlayer, &LFD::filtermusic::AudioPlayer::status,
+			&server, &LFD::filtermusic::Server::sendMessage);
 	QObject::connect(&audioPlayer, &LFD::filtermusic::AudioPlayer::paused,
 			&server, &LFD::filtermusic::Server::stopped);
 //	QObject::connect(audioPlayer, &LFD::filtermusic::AudioPlayer::volume,

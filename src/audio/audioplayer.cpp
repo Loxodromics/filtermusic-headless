@@ -54,10 +54,10 @@ void AudioPlayer::setPlayingState(const PlayingState& playingState)
 
 void AudioPlayer::setTrackInfo(const QString title)
 {
-	if (m_trackinfo == title)
+	if (this->m_trackinfo == title)
 		return;
 
-	m_trackinfo = title;
+	this->m_trackinfo = title;
 	emit newTitle(m_trackinfo);
 }
 
@@ -71,6 +71,7 @@ void AudioPlayer::setVolume(int volume)
 {
 	qDebug() << "volume:" << volume;
 	this->m_player.setVolume(volume);
+	emit this->status(QString("Volume:") + QString(volume));
 }
 
 AudioPlayer::PlayingState AudioPlayer::playingState() const
@@ -94,6 +95,7 @@ void AudioPlayer::pause()
 {
 	this->setPlayingState(PlayingState::NotConnected);
 	this->m_player.pause();
+	this->status(QStringLiteral("Paused"));
 }
 
 void AudioPlayer::metaDataChanged()
@@ -147,12 +149,14 @@ void AudioPlayer::stateChanged(QMediaPlayer::State state)
 void AudioPlayer::bufferingProgress(int progress)
 {
 	qDebug() << tr("Buffering %4%").arg(progress);
+	emit this->status(tr("Buffering %4%").arg(progress));
 }
 
 void AudioPlayer::reportErrorMessage()
 {
 	qDebug() << "error:" << this->m_player.errorString();
 	this->setPlayingState( PlayingState::NotConnected );
+	emit this->status(QStringLiteral("error:") + this->m_player.errorString());
 }
 
 }	/// namespace filtermusic

@@ -51,9 +51,10 @@ protected slots:
 	void reportErrorMessage();
 
 signals:
-	void newTitle( QString title );
+	void newTitle(QString& title);
 	void startedPlaying();
 	void paused();
+	void status(const QString& status);
 
 protected:
 	void setPlayingState(const PlayingState& playingState);
