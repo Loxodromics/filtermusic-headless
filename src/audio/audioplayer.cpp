@@ -71,7 +71,7 @@ void AudioPlayer::setVolume(int volume)
 {
 	qDebug() << "volume:" << volume;
 	this->m_player.setVolume(volume);
-	emit this->status(QString("Volume:") + QString(volume));
+	emit this->status(QString("volume:") + QString(volume));
 }
 
 AudioPlayer::PlayingState AudioPlayer::playingState() const
@@ -95,14 +95,14 @@ void AudioPlayer::pause()
 {
 	this->setPlayingState(PlayingState::NotConnected);
 	this->m_player.pause();
-	emit this->status(QStringLiteral("Paused"));
+	emit this->status(QStringLiteral("paused"));
 }
 
 void AudioPlayer::metaDataChanged()
 {
 	if (this->m_player.isMetaDataAvailable()) {
 		qDebug() << this->m_player.metaData(QMediaMetaData::Title);
-		this->setTrackInfo(QString("%1 - %2")
+		this->setTrackInfo(QString("trackinfo:%1 - %2")
 							 .arg(this->m_player.metaData(QMediaMetaData::AlbumArtist).toString())
 							 .arg(this->m_player.metaData(QMediaMetaData::Title).toString()));
 
@@ -124,19 +124,19 @@ void AudioPlayer::statusChanged(QMediaPlayer::MediaStatus status)
 	case QMediaPlayer::BufferingMedia:
 	case QMediaPlayer::BufferedMedia:
 		this->setPlayingState(PlayingState::Playing);
-		emit this->status(QStringLiteral("Playing"));
+		emit this->status(QStringLiteral("playing"));
 		break;
 	case QMediaPlayer::LoadingMedia:
 		this->setPlayingState(PlayingState::Connecting);
-		emit this->status(QStringLiteral("Connecting"));
+		emit this->status(QStringLiteral("connecting"));
 		break;
 	case QMediaPlayer::StalledMedia:
 		this->setPlayingState(PlayingState::Connecting);
-		emit this->status(QStringLiteral("Connecting"));
+		emit this->status(QStringLiteral("connecting"));
 		break;
 	case QMediaPlayer::EndOfMedia:
 		this->setPlayingState( PlayingState::NotConnected );
-		emit this->status(QStringLiteral("Stopped"));
+		emit this->status(QStringLiteral("stopped"));
 		break;
 	case QMediaPlayer::InvalidMedia:
 		reportErrorMessage();
@@ -148,14 +148,14 @@ void AudioPlayer::stateChanged(QMediaPlayer::State state)
 {
 	if (state == QMediaPlayer::StoppedState) {
 		this->setPlayingState( PlayingState::NotConnected );
-		emit this->status(QStringLiteral("Stopped"));
+		emit this->status(QStringLiteral("stopped"));
 	}
 }
 
 void AudioPlayer::bufferingProgress(int progress)
 {
 	qDebug() << tr("Buffering %4%").arg(progress);
-	emit this->status(tr("Buffering %4%").arg(progress));
+	emit this->status(tr("buffering %4%").arg(progress));
 }
 
 void AudioPlayer::reportErrorMessage()
