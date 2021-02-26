@@ -66,7 +66,7 @@ void Server::processMessage(const QString& message)
 	}
 	else if (message.startsWith("volume:")) {
 		QString volume = message.mid(7);
-		answer = QStringLiteral("Volume set to: ") + volume;
+		answer = QStringLiteral("Volume set to: ") + volume.toInt();
 		emit setVolume(volume.toInt());
 	}
 	else {
