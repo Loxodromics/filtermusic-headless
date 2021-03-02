@@ -14,6 +14,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core WebSockets Multimedia LinguistTools REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core WebSockets Multimedia LinguistTools REQUIRED)
 
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+	find_package(QT NAMES Qt6 Qt5 COMPONENTS Gui REQUIRED)
+	find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Gui REQUIRED)
+endif()
+
 set(TS_FILES filtermusic-headless_en_150.ts)
 
 add_executable(filtermusic-headless
@@ -23,6 +28,10 @@ add_executable(filtermusic-headless
 	${TS_FILES}
 )
 target_link_libraries(filtermusic-headless Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::WebSockets Qt${QT_VERSION_MAJOR}::Multimedia)
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+	target_link_libraries(filtermusic-headless Qt${QT_VERSION_MAJOR}::Gui)
+endif()
 
 if(COMMAND qt_create_translation)
 	qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})

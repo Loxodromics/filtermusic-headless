@@ -8,13 +8,22 @@
 
 #include "server.h"
 #include "audio/audioplayer.h"
+#ifdef Q_OS_MACOS
+#include <QGuiApplication>
+#elif
 #include <QCoreApplication>
+#endif
 #include <QtNetwork>
 #include <QDebug>
 
 int main(int argc, char* argv[])
 {
+#ifdef Q_OS_MACOS
+	/// for macox QMediaPlayer doesn't play anything when a QCoreApplication
+	QGuiApplication a(argc, argv);
+#elif
 	QCoreApplication a(argc, argv);
+#endif
 
 	LFD::filtermusic::Server server(54321);
 	LFD::filtermusic::AudioPlayer audioPlayer;
