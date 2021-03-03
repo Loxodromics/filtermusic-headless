@@ -33,7 +33,7 @@ AudioPlayer::AudioPlayer(QObject* parent)
 	connect( &this->m_player, SIGNAL(error(QMediaPlayer::Error)),
 			 this, SLOT(reportErrorMessage()));
 
-	m_player.setVolume(100);
+//	this->m_player.setVolume(oldVolume);
 }
 
 bool AudioPlayer::playing() const
@@ -58,7 +58,7 @@ void AudioPlayer::setTrackInfo(const QString title)
 		return;
 
 	this->m_trackinfo = title;
-	emit newTitle(m_trackinfo);
+	emit newTitle(QStringLiteral("trackinfo:") + m_trackinfo);
 }
 
 void AudioPlayer::setStationUrl(const QString stationUrl)
@@ -71,7 +71,14 @@ void AudioPlayer::setVolume(int volume)
 {
 	qDebug() << "volume:" << volume;
 	this->m_player.setVolume(volume);
-	emit this->status(QString("volume:") + QString(volume));
+	emit this->status(QStringLiteral("volume:") + QString::number(volume));
+}
+
+void AudioPlayer::updateState()
+{
+	this->statusChanged(this->m_player.mediaStatus());
+	emit this->status(QStringLiteral("volume:") + QString::number(this->m_player.volume()));
+	emit this->newTitle(m_trackinfo);
 }
 
 AudioPlayer::PlayingState AudioPlayer::playingState() const
@@ -102,7 +109,7 @@ void AudioPlayer::metaDataChanged()
 {
 	if (this->m_player.isMetaDataAvailable()) {
 		qDebug() << this->m_player.metaData(QMediaMetaData::Title);
-		this->setTrackInfo(QString("trackinfo:%1 - %2")
+		this->setTrackInfo(QStringLiteral("trackinfo:%1 - %2")
 							 .arg(this->m_player.metaData(QMediaMetaData::AlbumArtist).toString())
 							 .arg(this->m_player.metaData(QMediaMetaData::Title).toString()));
 

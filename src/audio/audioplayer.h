@@ -42,6 +42,7 @@ public slots:
 	void setStationUrl(const QString stationUrl);
 	void setTrackInfo(const QString trackinfo);
 	void setVolume(int volume);
+	void updateState();
 
 protected slots:
 	void metaDataChanged();
@@ -51,7 +52,7 @@ protected slots:
 	void reportErrorMessage();
 
 signals:
-	void newTitle(QString& title);
+	void newTitle(QString title);
 	void startedPlaying();
 	void paused();
 	void status(const QString& status);

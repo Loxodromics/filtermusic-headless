@@ -50,6 +50,8 @@ void Server::onNewConnection()
 	connect(pSocket, &QWebSocket::disconnected, this, &Server::socketDisconnected);
 
 	m_clients << pSocket;
+
+	emit this->updateState();
 }
 
 void Server::processMessage(const QString& message)
@@ -66,11 +68,11 @@ void Server::processMessage(const QString& message)
 	}
 	else if (message.startsWith("volume:")) {
 		QString volume = message.mid(7);
-		answer = QStringLiteral("Volume set to: ") + volume.toInt();
+		answer = QStringLiteral("Volume set to: ") + volume;
 		emit setVolume(volume.toInt());
 	}
 	else {
-		answer = QStringLiteral("¯\\_(ツ)_/¯");
+		answer = QStringLiteral("¯\\_(ツ)_/¯") + message;
 	}
 	QWebSocket* pSender = qobject_cast<QWebSocket*>(sender());
 	this->sendMessage(answer);

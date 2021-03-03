@@ -30,6 +30,7 @@ signals:
 	void playStation(const QString& stationUrl);
 	void stop();
 	void setVolume(const int volume);
+	void updateState();
 
 public slots:
 	void stopped();
@@ -43,6 +44,7 @@ private slots:
 protected:
 	QWebSocketServer* m_webSocketServer;
 	QList<QWebSocket*> m_clients;
+
 };
 
 }	/// namespace filtermusic
