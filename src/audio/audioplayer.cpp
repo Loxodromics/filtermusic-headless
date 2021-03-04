@@ -129,6 +129,8 @@ void AudioPlayer::statusChanged(QMediaPlayer::MediaStatus status)
 	case QMediaPlayer::NoMedia:
 	case QMediaPlayer::LoadedMedia:
 	case QMediaPlayer::BufferingMedia:
+		emit this->status(QStringLiteral("stopped"));
+		break;
 	case QMediaPlayer::BufferedMedia:
 		this->setPlayingState(PlayingState::Playing);
 		emit this->status(QStringLiteral("playing"));
