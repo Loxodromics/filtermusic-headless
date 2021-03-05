@@ -10,7 +10,7 @@
 #include "audio/audioplayer.h"
 #ifdef Q_OS_MACOS
 #include <QGuiApplication>
-#elif
+#else
 #include <QCoreApplication>
 #endif
 #include <QtNetwork>
@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
 #ifdef Q_OS_MACOS
 	/// for macox QMediaPlayer doesn't play anything when a QCoreApplication
 	QGuiApplication a(argc, argv);
-#elif
+#else
 	QCoreApplication a(argc, argv);
 #endif
 
