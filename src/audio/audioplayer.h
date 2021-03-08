@@ -10,6 +10,8 @@
 #include <QObject>
 #include <QMediaPlayer>
 
+#include "src/audio/lfdaudiomedia.h"
+
 namespace LFD {
 
 namespace filtermusic {
@@ -40,6 +42,7 @@ public:
 
 public slots:
 	void setStationUrl(const QString stationUrl);
+	void setMedia(const QString jsonBase64);
 	void setTrackInfo(const QString trackinfo);
 	void setVolume(int volume);
 	void updateState();
@@ -56,6 +59,7 @@ signals:
 	void startedPlaying();
 	void paused();
 	void status(const QString& status);
+	void media(const QString jsonBase64);
 
 protected:
 	void setPlayingState(const PlayingState& playingState);
@@ -64,6 +68,7 @@ protected:
 	PlayingState m_playingState;
 	QString m_trackinfo;
 	QString m_stationUrl;
+	LFD::AudioMedia m_media;
 };
 
 }	/// namespace filtermusic

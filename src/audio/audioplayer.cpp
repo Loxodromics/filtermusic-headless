@@ -19,7 +19,8 @@ AudioPlayer::AudioPlayer(QObject* parent)
 	  m_player(this),
 	  m_playingState(PlayingState::NotConnected),
 	  m_trackinfo(""),
-	  m_stationUrl("")
+	  m_stationUrl(""),
+	  m_media()
 {
 	connect( &this->m_player, SIGNAL(metaDataChanged()),
 			 this, SLOT(metaDataChanged()));
@@ -67,6 +68,13 @@ void AudioPlayer::setStationUrl(const QString stationUrl)
 	this->play();
 }
 
+void AudioPlayer::setMedia(const QString jsonBase64)
+{
+	QByteArray byteArray = QByteArray::fromBase64(jsonBase64.toUtf8());
+	this->m_media.fromJsonString(byteArray);
+	this->setStationUrl(this->m_media.url());
+}
+
 void AudioPlayer::setVolume(int volume)
 {
 	qDebug() << "volume:" << volume;
@@ -79,6 +87,8 @@ void AudioPlayer::updateState()
 	this->statusChanged(this->m_player.mediaStatus());
 	emit this->status(QStringLiteral("volume:") + QString::number(this->m_player.volume()));
 	emit this->newTitle(m_trackinfo);
+	QByteArray jsonBase64 = this->m_media.toJsonString().toUtf8().toBase64();
+	emit this->media(jsonBase64);
 }
 
 AudioPlayer::PlayingState AudioPlayer::playingState() const
