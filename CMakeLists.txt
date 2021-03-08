@@ -25,6 +25,7 @@ add_executable(filtermusic-headless
 	src/main.cpp
 	src/server.cpp
 	src/audio/audioplayer.cpp
+	src/audio/lfdaudiomedia.cpp
 	${TS_FILES}
 )
 target_link_libraries(filtermusic-headless Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::WebSockets Qt${QT_VERSION_MAJOR}::Multimedia)
