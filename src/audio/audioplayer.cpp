@@ -89,6 +89,7 @@ void AudioPlayer::updateState()
 	emit this->newTitle(m_trackinfo);
 	QByteArray jsonBase64 = this->m_media.toJsonString().toUtf8().toBase64();
 	emit this->media(jsonBase64);
+	emit this->status(QStringLiteral("lfdaudiomedia:") + jsonBase64);
 }
 
 AudioPlayer::PlayingState AudioPlayer::playingState() const
