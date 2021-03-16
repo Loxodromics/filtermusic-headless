@@ -73,6 +73,7 @@ void AudioPlayer::setMedia(const QString jsonBase64)
 	QByteArray byteArray = QByteArray::fromBase64(jsonBase64.toUtf8());
 	this->m_media.fromJsonString(byteArray);
 	this->setStationUrl(this->m_media.url());
+	emit this->status(QStringLiteral("lfdaudiomedia:") + jsonBase64);
 }
 
 void AudioPlayer::setVolume(int volume)

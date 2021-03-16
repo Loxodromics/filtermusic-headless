@@ -71,6 +71,11 @@ void Server::processMessage(const QString& message)
 		answer = QStringLiteral("Volume set to: ") + volume;
 		emit setVolume(volume.toInt());
 	}
+	else if (message.startsWith("lfdaudiomedia:")) {
+		const QString mediaBase64 = message.mid(14);
+		answer = QStringLiteral("Setting audio media: ") + mediaBase64;
+		emit setMedia(mediaBase64);
+	}
 	else {
 		answer = QStringLiteral("¯\\_(ツ)_/¯") + message;
 	}

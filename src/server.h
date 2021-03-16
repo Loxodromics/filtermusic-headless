@@ -31,6 +31,7 @@ signals:
 	void stop();
 	void setVolume(const int volume);
 	void updateState();
+	void setMedia(const QString mediaBase64);
 
 public slots:
 	void stopped();
